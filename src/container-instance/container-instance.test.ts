@@ -3,6 +3,8 @@ import { Token } from '../token'
 import { ServiceIdentifier } from '../types/service-identifier'
 import { ContainerInstance } from './container-instance'
 
+import { Service } from '../decorators/service'
+
 describe(ContainerInstance, () => {
   const TEST_CONTAINER_KEY = '__TEST_CONTAINER_KEY__'
   const TEST_STRING_ID = '__TEST_STRING_ID__'
@@ -96,6 +98,25 @@ describe(ContainerInstance, () => {
       const t = container.get(Test)
 
       expect(t instanceof Test).toBe(true)
+    })
+  })
+
+  describe('constructor resolutions', () => {
+    it('resolves on constructor param that has been set to container', () => {
+      @Service()
+      class Injected { 
+        public readonly message = 'I was injected'
+      }
+
+      @Service()
+      class Dependent {
+        constructor(public readonly injected: Injected) {}
+      }
+
+      container.set(Injected).set(Dependent)
+      const dep = container.get<Dependent>(Dependent)
+      expect(dep.injected).toBeDefined()
+      expect(dep.injected.message).toBe('I was injected')
     })
   })
 })
