@@ -1,4 +1,4 @@
-import { ReflectDecorator } from './reflect-dectorator'
+import { ReflectDecorator } from './reflect-decorator'
 import { Token } from '../token'
 import { ServiceOptions } from '../types/service-options'
 
