@@ -40,6 +40,6 @@ export class Container {
   public static get<T>(idObj: { service: Token<T> }): T;
   public static get<T>(id: string | Token<T> | Callable<T> | { service: Token<T> }): T {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this._globalInstance.get(id as any)
+    return this.globalInstance.get(id as any)
   }
 }
